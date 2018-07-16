@@ -14,7 +14,7 @@ library(lattice)
 library(reshape2)
 library(ggplot2)
 
-homogonization.qa <- function(directoryName) {
+homogenization.qa <- function(directoryName) {
   
   ### Get files from GD ###
   #########################################
@@ -174,5 +174,5 @@ homogonization.qa <- function(directoryName) {
 }
 
 #Ftn test
-homogonization.qa(directoryName="Calhoun")
+homogenization.qa(directoryName="Calhoun")
 
