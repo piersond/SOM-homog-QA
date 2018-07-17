@@ -14,7 +14,7 @@ library(lattice)
 library(reshape2)
 library(ggplot2)
 
-homogenization.qa <- function(directoryName) {
+homogenization.qa <- function(directoryName, temp.folder) {
   
   ### Get files from GD ###
   #########################################
@@ -142,7 +142,7 @@ homogenization.qa <- function(directoryName) {
       geom_boxplot() + geom_point(position = position_jitterdodge(), alpha = 0.3) + xlab(names(m1)[i]) + 
       theme(axis.text.x=element_text(angle=45, hjust=1),legend.position="none") + scale_colour_hue(l=50)
     
-    ggsave(paste0(directoryName,"_",names(m1)[i],"_profile data_plot.png"), width=10, height=8)
+    ggsave(paste0(directoryName,"_",names(m1)[i],"_profile data_plot.png"), path=temp.folder, width=10, height=8)
   }
   
   
@@ -153,7 +153,7 @@ homogenization.qa <- function(directoryName) {
   ### Export QA results to csv log file
   ##############################################
   txt.output <- data.frame(matrix(unlist(QA.results), nrow=length(QA.results), byrow=T),stringsAsFactors=FALSE)
-  write.table(txt.output,file=paste0(directoryName,"_homog_log.txt"),col.names = F, row.names = F)
+  write.table(txt.output,file=paste0(temp.folder,"/", directoryName,"_homog_log.txt"), col.names = F, row.names = F)
   
   # Console print status
   print("Data QA log export complete")
@@ -161,18 +161,22 @@ homogenization.qa <- function(directoryName) {
   
   ### Upload QA log and plots back to GDrive directory
   #########################################################
-  filesToUpload <- c(row.names(file.info(list.files(pattern="*.png"))),row.names(file.info(list.files(pattern="*.txt"))))
+  filesToUpload <- c(row.names(file.info(list.files(pattern="*.png",path=temp.folder))),row.names(file.info(list.files(pattern="*.txt",path=temp.folder))))
   
   # upload these files to the target Google directory
   ###CHANGED TO USE THE WORKING DIRECTORY...
   lapply(filesToUpload, function(frame) {
-    googledrive::drive_upload(paste0(getwd(),"/", frame),
+    googledrive::drive_upload(paste0(temp.folder,"/", frame),
                               path = googledrive::drive_get(googledrive::as_id(googleID)),
                               type = "spreadsheet")
   })
-  
+ 
+  #Remove temporary files
+  file.remove(file.path(temp.folder, list.files(temp.folder))) 
 }
 
-#Ftn test
-homogenization.qa(directoryName="Calhoun")
+#DEBUG
+# Ftn test
+  #temp.files <- "C:/Users/Derek/Google Drive/Code/R/temp"
+  #homogenization.qa(directoryName="Calhoun", temp.folder=temp.files)
 
