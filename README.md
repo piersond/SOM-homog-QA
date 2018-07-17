@@ -15,3 +15,6 @@ Example function use:
 ```
 homogenization.qa(directoryName=GDrive.folder, temp.folder=local.temp)
 ```
+
+See HomogQA_example.R for a fully functional script shwoing the code steps required to both homogenize and QA data in 
+a LTER-SOM folder.
