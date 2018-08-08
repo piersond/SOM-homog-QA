@@ -73,6 +73,9 @@ homogenization.qa <- function(directoryName, temp.folder) {
   }
   
   ### CHECK 2
+  
+  ###TURNING OUT FALSE NEGATIVES DUE TO ROUNDING OF NUMERICS - NEEDS WORK
+  
   # Check that all location values exist in HMGZD data
   loc.values <- c(na.omit(key.loc[,1]))
   hmg.toprow <- c(na.omit(t(hmg.data[1,])))
