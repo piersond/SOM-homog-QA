@@ -42,7 +42,7 @@ homogenization.qa <- function(directoryName, temp.folder) {
   
   # Load raw data
   raw.name <- dirFileNames[!grepl("key",dirFileNames, ignore.case = T) & !grepl("HMGZD",dirFileNames, ignore.case = T) & 
-                             !grepl("log.txt",dirFileNames, ignore.case = T) & !grepl("plot.png",dirFileNames, ignore.case = T)]
+                             !grepl("_log",dirFileNames, ignore.case = T) & !grepl("_plot",dirFileNames, ignore.case = T)]
   raw.data <- gs_read(ss=gs_title(raw.name), ws = 1, skip=0)
   
   # Load keykey
