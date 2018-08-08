@@ -1,18 +1,19 @@
-devtools::install_github("srearl/soilHarmonization")
+#Script for LTER-SOM dataset harmonization
 
 library('soilHarmonization')
+library('devtools')
 
-# Set working directory
-setwd("C:/Users/Derek/Google Drive/Code/R")
+#Install soilHarmonization package if needed
+devtools::install_github("srearl/soilHarmonization")
 
-# Note: Make sure the homogenization QA script file is in your working directory
-source("SoilHomog_QA.R")
+#Read SoilHomog_QA.R script from github
+source_url("https://raw.githubusercontent.com/piersond/SOM-homog-QA/master/SoilHomog_QA.R")
 
-### User input ###
+
+### Required User Inputs ###
 ###############################################################
-
 # Input LTER-SOM folder name to homogenize 
-GD.folder <- 'UMBS_DIRT_Bulk_Den_2004_2009'
+GD.folder <- 'BNZ1'
 
 # Local temporary directory address
 temp.files <- "C:/Users/Derek/Google Drive/Code/R/temp"
