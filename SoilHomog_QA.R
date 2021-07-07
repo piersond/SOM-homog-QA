@@ -2,7 +2,7 @@
 # This standalone script takes a user input Google Drive folder name and verifies that
 # the soilHarmonization function has correctly produced a homogenized data file with all 
 # the specified location and profile data given by the corresponding keykey file. Output
-# to the working directory includes log file of data check flags and .png plots of data 
+# to the working directory includes log file of data check flags and .pdf plots of data 
 # variables.
 
 
@@ -146,7 +146,7 @@ homogenization.qa <- function(directoryName, temp.folder) {
       geom_boxplot() + geom_point(position = position_jitterdodge(), alpha = 0.3) + xlab(names(m1)[i]) + 
       theme(axis.text.x=element_text(angle=45, hjust=1),legend.position="none") + scale_colour_hue(l=50)
     
-    ggsave(paste0(directoryName,"_",names(m1)[i],"_profile data_plot.png"), path=temp.folder, width=10, height=8)
+    ggsave(paste0(directoryName,"_",names(m1)[i],"_profile data_plot.pdf"), path=temp.folder, width=10, height=8)
   }
   
   
@@ -165,14 +165,13 @@ homogenization.qa <- function(directoryName, temp.folder) {
   
   ### Upload QA log and plots back to GDrive directory
   #########################################################
-  filesToUpload <- c(row.names(file.info(list.files(pattern="*.png",path=temp.folder))),row.names(file.info(list.files(pattern="*.txt",path=temp.folder))))
+  filesToUpload <- c(row.names(file.info(list.files(pattern="*.pdf",path=temp.folder))),row.names(file.info(list.files(pattern="*.txt",path=temp.folder))))
   
   # upload these files to the target Google directory
   ###CHANGED TO USE THE WORKING DIRECTORY...
   lapply(filesToUpload, function(frame) {
     googledrive::drive_upload(paste0(temp.folder,"/", frame),
-                              path = googledrive::drive_get(googledrive::as_id(googleID)),
-                              type = "spreadsheet")
+                              path = googledrive::drive_get(googledrive::as_id(googleID)) )
   })
  
   #Remove temporary files
